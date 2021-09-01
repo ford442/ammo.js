@@ -28,15 +28,15 @@ set(USE_GLUT OFF)
 set(CMAKE_BUILD_TYPE Release CACHE STRING "Build Type")
 
 # Default is 64*1024*1024 = 64MB
-set(TOTAL_MEMORY 67108864 CACHE STRING "Total Memory")
+set(TOTAL_MEMORY 1400mb CACHE STRING "Total Memory")
 
 # Enable for resizable heap, with some amount of slowness
 set(ALLOW_MEMORY_GROWTH 0 CACHE STRING "Allow Memory Growth")
 
 set(EMCC_ARGS
   --extern-pre-js ${AMMO_FRONT_MATTER_FILE}
-  --llvm-lto 1
-  --post-js glue.js
+  --flto
+  --post-js glue.js fromHTML.js
   --post-js ${AMMO_ONLOAD_FILE}
   -O3
   -s ALLOW_MEMORY_GROWTH=${ALLOW_MEMORY_GROWTH}
@@ -47,7 +47,7 @@ set(EMCC_ARGS
   -s EXPORT_NAME="Ammo"
   -s MODULARIZE=1
   -s NO_EXIT_RUNTIME=1
-  -s NO_FILESYSTEM=1
+  -s FILESYSTEM=0
   -s TOTAL_MEMORY=${TOTAL_MEMORY})
 
 if(${CLOSURE})
@@ -63,10 +63,7 @@ endif()
 
 set(EMCC_JS_ARGS ${EMCC_ARGS}
   -s AGGRESSIVE_VARIABLE_ELIMINATION=1
-  -s ELIMINATE_DUPLICATE_FUNCTIONS=1
-  -s LEGACY_VM_SUPPORT=1
-  -s SINGLE_FILE=1
-  -s WASM=0)
+  -s ELIMINATE_DUPLICATE_FUNCTIONS=1)
 
 set(EMCC_WASM_ARGS ${EMCC_ARGS}
   -s BINARYEN_IGNORE_IMPLICIT_TRAPS=1
