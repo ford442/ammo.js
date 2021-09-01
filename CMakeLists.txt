@@ -21,8 +21,6 @@ endforeach()
 # Disable bullet graphical benchmarks
 set(USE_GRAPHICAL_BENCHMARK OFF)
 
-# Disable bullet GLUT
-set(USE_GLUT OFF)
 
 # Build Release by default
 set(CMAKE_BUILD_TYPE Release CACHE STRING "Build Type")
